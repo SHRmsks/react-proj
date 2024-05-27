@@ -1,4 +1,4 @@
-import react from "react";
+
 
 class MathObjects {
   #value;
@@ -21,12 +21,13 @@ class sigma {
   constructor(startNum, endNum, expression) {
     if (
       startNum > endNum ||
-      typeof startNum != "number" ||
-      typeof endNum != "number"
+      typeof startNum !== 'number' ||
+      typeof endNum !== 'number'
     ) {
+      console.log(startNum);
       throw new Error("Invalid Input!");
     }
-    if (typeof expression != "expression") {
+    if (typeof expression != "function") {
       throw new Error("Invalid expression!");
     }
     this.#endNum = endNum;
@@ -70,3 +71,11 @@ class fraction {
     return this.#bottom;
   }
 }
+
+const classes ={
+  MathObjects,
+  sigma,
+  fraction,
+};
+
+export default classes;
