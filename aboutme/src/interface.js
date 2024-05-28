@@ -1,4 +1,4 @@
-import classes from "./object.js";
+import classes from "../src/object.js";
 
 function ifValid (className){
     return classes.hasOwnProperty(className);
@@ -12,7 +12,11 @@ function createObject ( className, ...parameters){
         throw new Error(`Class ${className} is not supported`);
     }
 }
+// var object = createObject("sigma",1,5, (x)=> (x) );
+// console.log(object.getSum());
+
+export default createObject;
 
 
-var object = createObject("sigma",1,5, (x)=> (x) );
-console.log(object.getSum());
+
+

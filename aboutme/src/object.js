@@ -1,6 +1,6 @@
 
 
-class MathObjects {
+class primariesMath {
   #value;
   constructor(value = null) {
     this.#value = value;
@@ -11,24 +11,23 @@ class MathObjects {
   setvalue(newvalue) {
     this.#value = newvalue;
     return true;
-  }
+  }     // if value are returned from users, it will set its value
 }
 
 class sigma {
   #endNum;
   #startNum;
   #expression;
-  constructor(startNum, endNum, expression) {
+  constructor(startNum=null, endNum = null, expression=null) {
     if (
       startNum > endNum ||
-      typeof startNum !== 'number' ||
-      typeof endNum !== 'number'
+      typeof startNum !== 'number'  ||
+      typeof endNum !== 'number' 
     ) {
-      console.log(startNum);
-      throw new Error("Invalid Input!");
+      throw new Error("Invalid Bound Input! Must be a number!");
     }
     if (typeof expression != "function") {
-      throw new Error("Invalid expression!");
+      throw new Error("Invalid expression! Must be a function!");
     }
     this.#endNum = endNum;
     this.#startNum = startNum;
@@ -52,6 +51,21 @@ class sigma {
   getExpression() {
     return this.#expression;
   }
+  setSigma(startNum, endNum, expression) {
+    if (
+      startNum > endNum ||
+      typeof startNum !== 'number' || startNum === null|| 
+      typeof endNum !== 'number' || endNum === null
+    ) {
+      throw new Error("Invalid Bound Input! Must be a number!");
+    }
+    if (typeof expression != "function") {
+      throw new Error("Invalid expression! Must be a function!");
+    }
+    this.#endNum = endNum;
+    this.#startNum = startNum;
+    this.#expression = expression;
+  }
 }
 
 class fraction {
@@ -73,7 +87,7 @@ class fraction {
 }
 
 const classes ={
-  MathObjects,
+  primariesMath, 
   sigma,
   fraction,
 };
