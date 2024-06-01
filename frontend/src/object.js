@@ -1,6 +1,4 @@
-
-
-class primariesMath {
+class rawMath {
   #value;
   constructor(value = null) {
     this.#value = value;
@@ -9,20 +7,24 @@ class primariesMath {
     return this.#value;
   }
   setvalue(newvalue) {
+    if (typeof newvalue !== 'string' || typeof newvalue !== 'number'){
+      throw new Error("Invalid Input! Input must be string or a number!");
+    }
+    
     this.#value = newvalue;
     return true;
-  }     // if value are returned from users, it will set its value
+  } // if value are returned from users, it will set its value
 }
 
 class sigma {
   #endNum;
   #startNum;
   #expression;
-  constructor(startNum=null, endNum = null, expression=null) {
+  constructor(startNum = null, endNum = null, expression = null) {
     if (
       startNum > endNum ||
-      typeof startNum !== 'number'  ||
-      typeof endNum !== 'number' 
+      typeof startNum !== "number" ||
+      typeof endNum !== "number"
     ) {
       throw new Error("Invalid Bound Input! Must be a number!");
     }
@@ -54,8 +56,10 @@ class sigma {
   setSigma(startNum, endNum, expression) {
     if (
       startNum > endNum ||
-      typeof startNum !== 'number' || startNum === null|| 
-      typeof endNum !== 'number' || endNum === null
+      typeof startNum !== "number" ||
+      startNum === null ||
+      typeof endNum !== "number" ||
+      endNum === null
     ) {
       throw new Error("Invalid Bound Input! Must be a number!");
     }
@@ -86,8 +90,8 @@ class fraction {
   }
 }
 
-const classes ={
-  primariesMath, 
+const classes = {
+  rawMath,
   sigma,
   fraction,
 };
