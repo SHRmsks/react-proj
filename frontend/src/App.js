@@ -16,3 +16,19 @@ function App() {
 }
 
 export default App;
+
+
+async function createBlock() {
+  const [block, setBlock] = useState([]);
+  const blockhandler = (e) => {
+    setBlock(e.target.val); // this is the update for tracing block contents. as an obj
+  };
+
+  let contents = document.createElement (
+    <>
+      <div>
+       <math-field oninput={block}></>
+      </div>
+    </>
+  );
+}

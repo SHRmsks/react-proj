@@ -1,28 +1,37 @@
 import "./tailwind.css";
+import ReactDOM from "react-dom";
 import { useState, useEffect, useRef } from "react";
-import { createBlockcontent } from "./interface.js";
-async function createBlock() {
-  const [block, setBlock] = useState([]);
-  const blockhandler = (e) => {
-    setBlock(e.target.val); // this is the update for tracing block contents. as an obj
-  };
+import BoldText from "./bold.js";
+import {MathfieldElement} from 'mathlive'
 
-  let contents = (
-    <>
-      <div>
-        <textarea rows="1" value={block} onChange={blockhandler} required />
-      </div>
-    </>
-  );
-}
+
+
 
 function PlayGround() {
   const [input, setInput] = useState("");
+  const [select, setSelect] = useState("");
+  const textArea = useRef(null);
+  useEffect(()=> {textArea.current.focus()},[]);
+ const textSelection =(e)=>
+  {
+    e.preventDefault();
+    const textarea = textArea.current;
+    const userInput= textArea.substring(textarea.selectionStart, (textarea.selectionEnd+1));
+    setSelect(select = userInput);
+   
+  }   // select the text 
 
-  const valuer = useRef(null);
-  useEffect(() => {
-    valuer.current.focus();
-  }, []);
+  const applyBold=()=>{
+    const textarea = textArea.current;
+    setInput(input=input.substring(0, textarea.selectionStart)+`<b>${select}</b>`+ input.substring(textarea.selectionEnd));
+    setSelect("");
+  }
+
+
+
+
+
+
 
   const handler = (e) => {
     setInput(e.target.value);
@@ -43,13 +52,17 @@ function PlayGround() {
             placeholder="Enter your expression here!"
             rows="20"
             cols="90"
-            ref={valuer}
+            ref={textArea}
             value={input}
             onChange={handler}
+            onMouseDown={textSelection}
+            currentValue={select}
+            onBold={BoldText}
             required
           />
           <br />
           <input type="submit" value="submit" />
+          <BoldText toBeBold={applyBold}/>
         </form>
       </div>
     </>
