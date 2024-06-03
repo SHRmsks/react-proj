@@ -2,40 +2,50 @@ import "./tailwind.css";
 import ReactDOM from "react-dom";
 import { useState, useEffect, useRef } from "react";
 import BoldText from "./bold.js";
-import {MathfieldElement} from 'mathlive'
-
-
-
+import { MathfieldElement } from "mathlive";
 
 function PlayGround() {
-  const [input, setInput] = useState("");
-  const [select, setSelect] = useState("");
-  const textArea = useRef(null);
-  useEffect(()=> {textArea.current.focus()},[]);
- const textSelection =(e)=>
-  {
-    e.preventDefault();
-    const textarea = textArea.current;
-    const userInput= textArea.substring(textarea.selectionStart, (textarea.selectionEnd+1));
-    setSelect(select = userInput);
-   
-  }   // select the text 
-
-  const applyBold=()=>{
-    const textarea = textArea.current;
-    setInput(input=input.substring(0, textarea.selectionStart)+`<b>${select}</b>`+ input.substring(textarea.selectionEnd));
-    setSelect("");
-  }
-
-
-
-
+  const [input, setInput] = useState(<p>""</p>);
+  const [select, setSelect] = useState(<p>""</p>);
+const text_Area = useRef(null);
 
 
 
   const handler = (e) => {
     setInput(e.target.value);
+    return(setSelect(""));
   }; // this is the update for user input
+
+  
+
+  useEffect(() => {
+    text_Area.current.focus();
+  }, [input, select]);
+
+   
+  const textSelection = (e) => {
+    e.preventDefault();
+    const textarea = text_Area.current;
+    var userInput = textarea.value.substring(
+      textarea.selectionStart,
+      textarea.selectionEnd + 1
+    );
+    setSelect((prevselect)=>(userInput));
+  }; // select the text
+  const applyBold = () => {
+    const textarea = text_Area.current;
+    const start = textarea.selectionStart
+    const end = textarea.selectionEnd
+    setInput(
+      (previnput)=>(
+        previnput.substring(0, start) +
+        `<b>${select}</b>` +
+        previnput.substring(end)
+      )
+    );
+    setSelect("");
+  };
+
   return (
     <>
       <div>
@@ -47,22 +57,23 @@ function PlayGround() {
           }}
         >
           <label>START COMPUTE!</label> <br />
-          <textarea
+          <div
+            contentEditable="true"
             id="userInputArea"
             placeholder="Enter your expression here!"
             rows="20"
             cols="90"
-            ref={textArea}
+            ref={text_Area}
             value={input}
             onChange={handler}
-            onMouseDown={textSelection}
+            onMouseUp={textSelection}
             currentValue={select}
             onBold={BoldText}
             required
           />
           <br />
           <input type="submit" value="submit" />
-          <BoldText toBeBold={applyBold}/>
+          <BoldText toBeBold={applyBold} />
         </form>
       </div>
     </>
