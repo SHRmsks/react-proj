@@ -6,7 +6,6 @@ import PlayGround from "./playground.js";
 
 const root = createRoot(document.getElementById("root"));
 root.render(
-
     <PlayGround/>
 );
 

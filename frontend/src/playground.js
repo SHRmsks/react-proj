@@ -1,80 +1,47 @@
 import "./tailwind.css";
-import ReactDOM from "react-dom";
+import "mathlive";
 import { useState, useEffect, useRef } from "react";
-import BoldText from "./bold.js";
-import { MathfieldElement } from "mathlive";
+import {ComputeEngine} from 'https://unpkg.com/@cortex-js/compute-engine?module';
 
 function PlayGround() {
-  const [input, setInput] = useState(<p>""</p>);
-  const [select, setSelect] = useState(<p>""</p>);
-const text_Area = useRef(null);
+  const ce= new ComputeEngine();
+
+  const [input, setInput] = useState("");
+  const [parsedInput, setParsedInput] = useState(null);
+
+
+  const mathfield = useRef(null);
+  const valueHandler = (e) => {setInput(e.target.value);
+    try{
+      setParsedInput(ce.parse(e.target.value).json);
+    }catch(e){
+      console.log("error with ", e);
+      setParsedInput(null);
+    }
 
 
 
-  const handler = (e) => {
-    setInput(e.target.value);
-    return(setSelect(""));
-  }; // this is the update for user input
 
-  
-
-  useEffect(() => {
-    text_Area.current.focus();
-  }, [input, select]);
-
-   
-  const textSelection = (e) => {
-    e.preventDefault();
-    const textarea = text_Area.current;
-    var userInput = textarea.value.substring(
-      textarea.selectionStart,
-      textarea.selectionEnd + 1
-    );
-    setSelect((prevselect)=>(userInput));
-  }; // select the text
-  const applyBold = () => {
-    const textarea = text_Area.current;
-    const start = textarea.selectionStart
-    const end = textarea.selectionEnd
-    setInput(
-      (previnput)=>(
-        previnput.substring(0, start) +
-        `<b>${select}</b>` +
-        previnput.substring(end)
-      )
-    );
-    setSelect("");
   };
+  useEffect(() => {
+    mathfield.current.focus();
+    if (mathfield.current) {
+      mathfield.current.addEventListener("input", valueHandler);
+    }
+    return () => {
+      if (mathfield.current) {
+        mathfield.current.removeEventListener("input", valueHandler);
+      }
+    };
+  }, [input, parsedInput]);
 
   return (
     <>
       <div>
-        <form
-          className="flex flex-col justify-center items-center"
-          onSubmit={(e) => {
-            e.preventDefault();
-            console.log("User's raw input is: ", input);
-          }}
-        >
-          <label>START COMPUTE!</label> <br />
-          <div
-            contentEditable="true"
-            id="userInputArea"
-            placeholder="Enter your expression here!"
-            rows="20"
-            cols="90"
-            ref={text_Area}
-            value={input}
-            onChange={handler}
-            onMouseUp={textSelection}
-            currentValue={select}
-            onBold={BoldText}
-            required
-          />
-          <br />
-          <input type="submit" value="submit" />
-          <BoldText toBeBold={applyBold} />
-        </form>
+        <label id="Question">Your Question: </label>
+        <br/>
+          <math-field ref={mathfield} math-virtual-policy="auto" placeholder="Your expression here"></math-field>
+          <p>value :{ JSON.stringify(parsedInput)}</p>
       </div>
     </>
   );
