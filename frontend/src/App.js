@@ -27,7 +27,7 @@ async function createBlock() {
   let contents = document.createElement (
     <>
       <div>
-       <math-field oninput={block}></>
+       <math-field oninput={block}></math-field>
       </div>
     </>
   );
