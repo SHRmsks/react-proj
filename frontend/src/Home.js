@@ -8,7 +8,7 @@ function Home() {
     <Router>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
-        <Route path="questionProf" element={<PlayGround />} />
+        <Route path="/prof" element={<PlayGround />} />
       </Routes>
     </Router>
   );

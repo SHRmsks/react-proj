@@ -9,6 +9,14 @@ module.exports = {
         l: "calc(100% / 8)", // Example value, adjust as needed
         xl: "calc(100% / 5)", // Example value, adjust as needed
       },
+      screen: {
+        mobile: "480px",
+        mobile2: "768px",
+        tablet: "834px",
+        tablet2: "1024px",
+        laptop: "1040px",
+        desktop: "1040px",
+      },
     },
   },
   plugins: [],
