@@ -1,6 +1,6 @@
 import react from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import PlayGround from "./playground.js";
+import PlayGround from "./users/playground.js";
 import LoginPage from "./login.js";
 
 function Home() {

@@ -1,6 +1,6 @@
-import "./tailwind.css";
+import "../tailwind.css";
 import "mathlive";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { ComputeEngine } from "https://unpkg.com/@cortex-js/compute-engine?module";
 import { MathfieldElement } from "mathlive";
 import Button from "@mui/material/Button/index.js";
@@ -10,7 +10,6 @@ function PlayGround() {
 
   const [input, setInput] = useState("");
   const [parsedInput, setParsedInput] = useState(null);
-
   const mathfield = useRef(null);
   const valueHandler = (e) => {
     setInput(e.target.value);
@@ -21,6 +20,7 @@ function PlayGround() {
       setParsedInput(null);
     }
   };
+  const jsonformat = useMemo(() => (parsedInput !== null ? JSON.stringify(parsedInput) : {}), [parsedInput]);
 
   useEffect(() => {
     if (MathfieldElement.keybindings && Array.isArray(MathfieldElement.keybindings)) {
@@ -42,6 +42,7 @@ function PlayGround() {
     if (mathfield.current) {
       mathfield.current.addEventListener("input", valueHandler);
     }
+    console.log(jsonformat);
     return () => {
       if (mathfield.current) {
         mathfield.current.removeEventListener("input", valueHandler);
@@ -50,13 +51,17 @@ function PlayGround() {
   }, [input, parsedInput]);
 
   return (
-    <div className="space-y-3">
-      <label id="Question">Your Question: </label>
-      <br />
+    <div
+      className="grid max-grid-cols-1 gap-y-[4vh] 2xl:max-w-[30vw] xl:max-w-[35vw] lg:max-w-[40vw] 
+        md:max-w-[40vw] sm: max-w-[50vw] min-w-[10vw]"
+    >
+      <label className="text-center" id="Question">Your Question: </label>
       <math-field ref={mathfield} math-virtual-policy="auto" placeholder="Your expression here"></math-field>
+
       {/* <p>value :{JSON.stringify(parsedInput)}</p> */}
-      <br />
-      <Button variant="contained">Submit</Button>
+      <div className="flex justify-center">
+        <Button variant="contained">Submit</Button>
+      </div>
     </div>
   );
 }
